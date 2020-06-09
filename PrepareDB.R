@@ -163,7 +163,7 @@ Reactome_DB_Update  =function(websource = "https://reactome.org/download/current
 MeSH_DB_Update  =function(keyword = "MeSH_DB",DB_location = '.'){
   library(MeSH.db);library(MeSH.Bta.eg.db);library(tidyverse);library(gage);library(magrittr)
   ## download DB
-  ptm <- proc.time();message(paste("Accessing",websource,'...'))
+  ptm <- proc.time();message(paste("Accessing Database..."))
   message(paste("Database: ",keyword," download starts!"))
   key_Bta <- keys(MeSH.Bta.eg.db, keytype = "MESHID")
   #key_Bta = key_Bta[1:5]
@@ -268,7 +268,7 @@ Msig_DB_Update  =function(keyword = "Msig_DB",DB_location = '.'){
 #load("~/top.5.salaries")
 
 system('mkdir AllDB')
-setwd("/ufrc/penagaricano/lihe.liu/BrayanEnrich/AllDB/")
+setwd("/ufrc/penagaricano/lihe.liu/BrayanEnrich/testDB/")
 Go_DB_Update()
 Kegg_DB_Update()
 Interpro_DB_Update()
