@@ -267,7 +267,7 @@ Msig_DB_Update  =function(keyword = "Msig_DB",DB_location = '.'){
 
 #load("~/top.5.salaries")
 
-
+system('mkdir AllDB')
 setwd("/ufrc/penagaricano/lihe.liu/BrayanEnrich/AllDB/")
 Go_DB_Update()
 Kegg_DB_Update()
