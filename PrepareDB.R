@@ -237,7 +237,7 @@ Msig_DB_Update  =function(keyword = "Msig_DB",DB_location = '.'){
     All_Descrip[i] = Get_Descrip(Msig_urls[i])
   }
   # massage
-  Universe_Descrip = data.frame(cbind(Msig_name_index_test,All_Descrip))
+  Universe_Descrip = data.frame(cbind(Msig_name_index,All_Descrip))
   colnames(Universe_Descrip) = c('gs_name','gs_description')
   #
   m_df_all = m_df %>% 
