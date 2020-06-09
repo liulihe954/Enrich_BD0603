@@ -1,6 +1,6 @@
 # read in 
 setwd('/Users/liulihe95/Desktop/BrayanEnrich')
-sigGene_All = load('sigGene_All.rda')
+load('sigGene_All.rda')
 
 
 #
@@ -129,11 +129,11 @@ HyperGEnrich = function(GeneSet,
   #raw_pvalue_distribution
   
   save(results_raw,results,
-       file = paste0(Database,'-Enrichment-',minOverlap,'-',pvalue.thres,'-',adj.pvalue.thre,'.rda'))
+       file = paste0(Database,'-Enrichment-',minOverlap,'-',pvalue_thres,'-',adj_pvalue_thres,'.rda'))
   
   message(total_enrich," significant terms found within ",
           length(TestingSubsetNames)," modules/subsets ", 
-          "with pvalue and adj.pvalue set at ",pvalue.thres,' and ',adj.pvalue.thre)
+          "with pvalue and adj.pvalue set at ", pvalue_thres,' and ',adj_pvalue_thres)
 }
 
 
