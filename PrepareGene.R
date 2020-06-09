@@ -21,14 +21,19 @@ Universe_id_bta = AnnotationDbi::select(org.Bt.eg.db,
   dplyr::distinct(ENSEMBL,.keep_all= TRUE)
 
 # Extract Gene and match identifiers - (ENS - Entrez - HGNC corrected symbol)
-GeneFile_ID = c('sig_snps_L1.xlsx','sig_snps_L2.xlsx','sig_snps_L3.xlsx')
+setwd('/Users/liulihe95/Desktop/BrayanEnrich/snp_files/')
+GeneID_sig = c('sig_snps_L1.xlsx','sig_snps_L2.xlsx','sig_snps_L3.xlsx')
+GeneID_all = c('total_snps_L1.xlsx','total_snps_L2.xlsx','total_snps_L3.xlsx')
 sigGene_All = list()
-
 for (i in seq_along(GeneFile_ID)){
-  sigGene_Each_Lac = read_xlsx(GeneFile_ID[i],col_names = 'Gene') %>% 
+  siglist = read_xlsx(GeneID_sig[i],col_names = 'Gene') %>% 
+    unlist(use.names = F)
+  sigGene_Each_Lac = read_xlsx(GeneID_all[i],col_names = 'Gene') %>% 
     dplyr::left_join(Universe_id_bta,by=c('Gene'='ENSEMBL')) %>% 
-    mutate(SYMBOL_Suggested = check_symbol(SYMBOL))
-  sigGene_All[i] = sigGene_Each_Lac
+    mutate(SYMBOL_Suggested = check_symbol(SYMBOL)) %>% 
+    mutate(Sig = ifelse(Gene %in% siglist,'1','0'))
+  sigGene_All[[i]] = sigGene_Each_Lac
+  names(sigGene_All)[i] = paste0('Lac',i)
 }
 
 # output examained identifiers

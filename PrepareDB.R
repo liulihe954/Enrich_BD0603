@@ -133,11 +133,10 @@ Reactome_DB_Update  =function(websource = "https://reactome.org/download/current
   message("Downloads finished! Time used: ")
   print(proc.time() - ptm)
   ## parse into terms/records (for easier extraction)
-  DB_List = entrezReactome_DB_all_path_bt %>%
+  DB_List = entrezReactome_DB_all_path_bt %>% data.frame() %>%
     dplyr::filter(nchar(entrezReactome_DB_all_path_bt[,2]) != 0) %>% 
     mutate(TermDescription = paste(.[,2],.[,3],sep = "---" )) %>% 
     dplyr::select(names(entrezReactome_DB_all_path_bt)[1],TermDescription) %>% 
-    data.frame() %>% 
     split_tibble(column = "TermDescription",keep = names(entrezReactome_DB_all_path_bt)[1])
   #
   Reactome_DB = DB_List
@@ -210,6 +209,7 @@ Msig_DB_Update  =function(keyword = "Msig_DB",DB_location = '.'){
   library(tidyverse);library(msigdbr)
   m_df = msigdbr(species = "Bos taurus")
   
+  
   # obtain name index and paste to all urls
   Msig_name_index = unique(m_df$gs_name)
   Msig_urls = paste(url_template,Msig_name_index,sep = "")
@@ -241,11 +241,13 @@ Msig_DB_Update  =function(keyword = "Msig_DB",DB_location = '.'){
   colnames(Universe_Descrip) = c('gs_name','gs_description')
   #
   m_df_all = m_df %>% 
+    #dplyr::filter(gs_name %in% Msig_name_index) %>% 
     dplyr::left_join(Universe_Descrip,
                      by = c("gs_name" = "gs_name")) %>% 
     dplyr::select(entrez_gene,gs_id,gs_description) %>% 
+    data.frame() %>% 
     mutate(TermDescription = paste(.[,2],.[,3],sep = "---" )) %>% 
-    dplyr::select(names(.)[1],TermDescription)
+    dplyr::select(entrez_gene,TermDescription)
   
   DB_List = m_df_all %>% 
     split_tibble(column = 'TermDescription',keep = names(.)[1])
